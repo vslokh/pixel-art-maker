@@ -14,6 +14,7 @@ const whiteBoard = document.createElement("div");
 
 whiteBoard.className = "white-board";
 
+let bgColor;
 
 
 document.body.appendChild(container);
@@ -23,6 +24,7 @@ artMaker.appendChild(colors);
 
 const x = 55;
 const y = 100;
+let prevBGColor;
 
 for (let i = 0; i < x; i++){
     let row = document.createElement('div');
@@ -30,32 +32,40 @@ for (let i = 0; i < x; i++){
     for (let j=0;j<y;j++){
         let pixel = document.createElement("div");
         pixel.className = "pixel";
-        pixel.onclick = () => {
-            pixel.style.backgroundColor = "Red";
+        // pixel.onclick = () => {
+        //     pixel.style.backgroundColor = bgColor;
+        // }
+        pixel.onmouseenter = () => {
+            pixel.style.backgroundColor = prevBGColor;
+        }
+        pixel.onmouseup = () => {
+            prevBGColor = ""
+        }
+        pixel.onmousedown = () => {
+            prevBGColor = bgColor;
+            pixel.style.backgroundColor = prevBGColor || bgColor;
         }
         row.appendChild(pixel);
     }
     whiteBoard.appendChild(row);
 }
 
-let color = ["red","orange", "yellow", "green", "blue", "purple", "brown", "gray", "black", "white"];
+let colorsArray = ["red","orange", "yellow", "green", "blue", "purple", "brown", "gray", "black", "white", "gray",
+    "lightgray", "violet"];
 
-const red = document.createElement('div');
-red.className = "pellet";
-red.style.backgroundColor = "Red";
+console.log(colorsArray);
 
-const blue = document.createElement('div');
-blue.className = "pellet";
-blue.style.backgroundColor = "Blue";
+colorsArray.forEach(color => {
+    console.log(color);
+    let pellet =  document.createElement('div');
+    pellet.className = "pellet";
+    pellet.style.backgroundColor = color;
+    pellet.onclick = (e) => {
+        bgColor = e.target.style.backgroundColor;
+    }
+    colors.appendChild(pellet);
+});
 
-colors.appendChild(red);
-colors.appendChild(blue);
-
-let color;
-
-blue.onclick = (e) => {
-    console.log(e.target.style.backgroundColor);
-}
 
 
 
